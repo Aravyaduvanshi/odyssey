@@ -1,0 +1,10 @@
+active_provider: MockSensorProvider
+providers:
+  mock:
+    rate_hz: 100
+    source_label: SYNTHETIC
+  smartphone:
+    enabled: false
+  external_imu:
+    enabled: false
+

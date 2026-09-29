@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "odysseyv1"
+version = "0.1.0"
+description = "Edge-first AI-assisted dead reckoning and GNSS+INS fusion platform."
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi",
+  "numpy",
+  "pydantic",
+  "uvicorn",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["edge*"]
+

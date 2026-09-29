@@ -1,0 +1,53 @@
+# OdysseyV1 ES-EKF Configuration
+# Physical units documented for all sensor and filter parameters.
+
+filter:
+  enabled: true
+  state_dimension: 15
+  max_valid_dt_sec: 0.05       # Max valid time delta for propagation (reject gaps > 50ms)
+  min_valid_dt_sec: 0.00001    # Min valid time delta (reject zero or negative dt)
+
+imu_noise:
+  # Continuous noise spectral density
+  accelerometer_noise_density: 0.08      # m/s^2 / sqrt(Hz)
+  gyro_noise_density: 0.005              # rad/s / sqrt(Hz)
+  # Bias instability / random walk
+  accelerometer_bias_random_walk: 0.0002 # m/s^3 / sqrt(Hz)
+  gyro_bias_random_walk: 0.00005         # rad/s^2 / sqrt(Hz)
+
+initial_variances:
+  # Diagonal initial covariance P0
+  position: [1.0, 1.0, 4.0]             # m^2 (East, North, Up)
+  velocity: [0.25, 0.25, 0.25]          # (m/s)^2
+  attitude: [0.01, 0.01, 0.04]          # rad^2 (Roll, Pitch, Yaw)
+  accel_bias: [0.0025, 0.0025, 0.0025]  # (m/s^2)^2 (approx 0.05 m/s^2 1-sigma)
+  gyro_bias: [0.000025, 0.000025, 0.000025] # (rad/s)^2 (approx 0.005 rad/s 1-sigma)
+
+measurements:
+  gnss_position:
+    noise_std_horizontal: 2.5            # m (1-sigma)
+    noise_std_vertical: 4.5              # m (1-sigma)
+    gating_mahalanobis_threshold: 16.27  # Chi-square 3-DOF @ 99.9%
+  
+  gnss_velocity:
+    noise_std_horizontal: 0.15           # m/s (1-sigma)
+    noise_std_vertical: 0.3              # m/s (1-sigma)
+    gating_mahalanobis_threshold: 16.27  # Chi-square 3-DOF @ 99.9%
+
+  ai_velocity:
+    fallback_variance_mps2: 0.5          # (m/s)^2 if model uncertainty is invalid
+    min_variance_mps2: 0.0001            # Clamping lower bound for numerical safety
+    max_variance_mps2: 100.0             # Clamping upper bound
+    min_speed_threshold_mps: 0.0         # Non-negative forward speed lower bound
+    max_speed_threshold_mps: 80.0        # Physical sanity upper bound (~288 km/h)
+    gating_mahalanobis_threshold: 10.83  # Chi-square 1-DOF @ 99.9%
+
+  nhc:
+    noise_std_lateral: 0.1               # m/s (1-sigma)
+    noise_std_vertical: 0.15             # m/s (1-sigma)
+    gating_mahalanobis_threshold: 13.82  # Chi-square 2-DOF @ 99.9%
+
+  zupt:
+    noise_std: 0.05                      # m/s (1-sigma for 3D zero velocity)
+    gating_mahalanobis_threshold: 16.27  # Chi-square 3-DOF @ 99.9%
+

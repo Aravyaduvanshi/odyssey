@@ -1,0 +1,27 @@
+{
+  "name": "odysseyv1-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "lint": "next lint",
+    "test": "node --test ../tests/frontend_test.mjs"
+  },
+  "dependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "typescript": "latest"
+  },
+  "devDependencies": {
+    "autoprefixer": "latest",
+    "postcss": "latest",
+    "@tailwindcss/postcss": "latest",
+    "tailwindcss": "latest"
+  }
+}

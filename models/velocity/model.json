@@ -1,0 +1,25 @@
+{
+  "name": "S2_velocity_TCN_uncertainty_v2",
+  "version": "2.0.0",
+  "status": "READY",
+  "format": "keras3",
+  "input_shape": [1, 100, 6],
+  "sampling_rate_hz": 10,
+  "window_samples": 100,
+  "stride_samples": 10,
+  "frame": "VEHICLE",
+  "features": [
+    "ACC_VEH_X",
+    "ACC_VEH_Y",
+    "ACC_VEH_Z",
+    "GYRO_Yaw_corrected",
+    "GYRO_Pitch_corrected",
+    "GYRO_Roll_corrected"
+  ],
+  "output_semantic": "velocity_and_log_variance",
+  "target_normalization": {
+    "mean": 26.571593,
+    "std": 20.847066
+  },
+  "description": "Estimates vehicle forward velocity and log_variance uncertainty from vehicle-aligned IMU."
+}

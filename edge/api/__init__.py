@@ -1,0 +1,2 @@
+"""FastAPI edge API package."""
+

@@ -1,0 +1,80 @@
+yaw:
+  model:
+    name: MountNet_V2_CNN
+    path: models/yaw/mountnet_v2_baseline.keras
+
+  input:
+    shape: [100, 6]
+    rate_hz: 10
+    duration_sec: 10.0
+    stride_samples: 50
+    stride_sec: 5.0
+
+  frame:
+    input: PHONE
+
+  features:
+    - accelerometer_x
+    - accelerometer_y
+    - accelerometer_z
+    - gyroscope_x
+    - gyroscope_y
+    - gyroscope_z
+
+  normalization:
+    type: train_mean_std
+    mean_file: models/yaw/baseline_mean.npy
+    std_file: models/yaw/baseline_std.npy
+
+  output:
+    type: sin_cos
+    shape: [2]
+    semantic: mounting_yaw
+    formula: atan2(sin_yaw, cos_yaw)
+    note: "Must NOT be interpreted as vehicle navigation heading."
+
+velocity:
+  model:
+    name: S2_velocity_TCN_uncertainty_v2
+    path: models/velocity/S2_velocity_TCN_uncertainty_v2.keras
+
+  input:
+    shape: [100, 6]
+    rate_hz: 10
+    duration_sec: 10.0
+    stride_samples: 10
+
+  frame:
+    input: VEHICLE
+
+  features:
+    - ACC_VEH_X
+    - ACC_VEH_Y
+    - ACC_VEH_Z
+    - GYRO_Yaw_corrected
+    - GYRO_Pitch_corrected
+    - GYRO_Roll_corrected
+
+  normalization:
+    type: train_mean_std
+    file: models/velocity/S2_velocity_TCN_uncertainty_v2_normalization.csv
+    parameters:
+      ACC_VEH_X: { mean: -0.038078, std: 1.156829 }
+      ACC_VEH_Y: { mean: 0.020610, std: 1.104612 }
+      ACC_VEH_Z: { mean: -0.018169, std: 0.628754 }
+      GYRO_Yaw_corrected: { mean: 0.000854, std: 0.169824 }
+      GYRO_Pitch_corrected: { mean: -0.007635, std: 0.144094 }
+      GYRO_Roll_corrected: { mean: 0.002120, std: 0.080973 }
+
+  target_normalization:
+    mean: 26.571593
+    std: 20.847066
+    file: models/velocity/S2_velocity_TCN_uncertainty_v2_target_normalization.csv
+
+  output:
+    velocity: normalized_target
+    uncertainty: log_variance
+    shape: [2]
+    formula:
+      velocity_mps: "velocity_normalized * 20.847066 + 26.571593"
+      sigma_mps: "exp(0.5 * log_variance) * 20.847066"

@@ -1,0 +1,21 @@
+{
+  "name": "MountNet_V2_CNN",
+  "version": "2.0.0",
+  "status": "READY",
+  "format": "keras3",
+  "input_shape": [1, 100, 6],
+  "sampling_rate_hz": 10,
+  "window_samples": 100,
+  "stride_samples": 50,
+  "frame": "PHONE",
+  "features": [
+    "accelerometer_x",
+    "accelerometer_y",
+    "accelerometer_z",
+    "gyroscope_x",
+    "gyroscope_y",
+    "gyroscope_z"
+  ],
+  "output_semantic": "mounting_yaw",
+  "description": "Estimates 2D phone mounting alignment vector [sin(yaw), cos(yaw)] relative to vehicle frame."
+}

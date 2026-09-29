@@ -1,0 +1,7 @@
+velocity:
+  status: MODEL_NOT_LOADED
+  directory: models/velocity
+yaw:
+  status: MODEL_NOT_LOADED
+  directory: models/yaw
+

@@ -1,0 +1,44 @@
+navigation_frame: ENU
+sensor_rate_hz: 100
+publish_rate_hz: 10
+synthetic_mode_label: SYNTHETIC
+phase: PHASE_1
+
+motion:
+  stationary:
+    speed_max_mps: 0.3                   # Estimated speed ceiling for stationary condition (m/s)
+    gyro_max_rads: 0.05                  # Gyro norm threshold (~2.86 deg/s)
+    accel_diff_max_mps2: 0.4             # Deviation from 1g (9.80665 m/s^2)
+    accel_variance_max: 0.04             # Max variance in short window (m/s^2)^2
+    gyro_variance_max: 0.005             # Max gyro variance (rad/s)^2
+    jerk_max_mps3: 2.0                   # Max IMU jerk allowed for stationary (m/s^3)
+    consecutive_samples: 5               # Required consecutive stationary samples for ZUPT
+  acceleration:
+    min_mps2: 0.6                        # Forward acceleration threshold (m/s^2)
+  braking:
+    min_mps2: -0.6                       # Forward deceleration threshold (m/s^2)
+  turning:
+    gyro_entry_rads: 0.15                # Yaw rate entry threshold (~8.6 deg/s)
+    gyro_exit_rads: 0.08                 # Yaw rate exit threshold for hysteresis (~4.6 deg/s)
+    lat_accel_min_mps2: 1.0              # Lateral acceleration threshold (m/s^2)
+  vibration:
+    score_threshold: 3.5                 # Sum of abs(ax) + abs(ay) + max(0, abs(az - g)) (m/s^2)
+    variance_threshold: 2.0              # Short-window accel norm variance (m/s^2)^2
+  phone_movement:
+    gyro_max_rads: 2.0                   # Angular rate ceiling beyond vehicle chassis (~115 deg/s)
+    rot_accel_max_rads2: 25.0            # Angular acceleration ceiling (rad/s^2)
+    roll_pitch_rate_max_rads: 1.5        # Roll/Pitch rate ceiling (rad/s)
+  nhc:
+    max_yaw_rate_rads: 0.12              # Yaw rate threshold to suppress NHC during cornering (rad/s)
+    max_vibration_score: 3.0             # Vibration threshold to suppress NHC
+  hysteresis:
+    persistence_samples: 3               # Minimum samples before switching state
+
+gnss_outage:
+  loss_timeout_sec: 1.0                  # Timeout without valid GNSS before declaring outage (seconds)
+  loss_persistence_samples: 3            # Consecutive invalid/missing samples before declaring outage
+  recovery_persistence_samples: 5        # Consecutive accepted GNSS updates to transition RECOVERY -> GNSS_INS
+  accuracy_threshold_degraded_m: 5.0     # Horizontal accuracy threshold for DEGRADED_GNSS_INS (meters)
+  max_acceptable_outage_gap_sec: 300.0   # Maximum tracking duration (seconds)
+
+
